@@ -26,7 +26,7 @@ The client files are located in /client/.
 
 Drop the loggerClient.js into your workspace and initialise it like this:
 
-const logger = require('./loggerClient.js').init("AppName", "Instance_ID", "IP", port);
+`const logger = require('./loggerClient.js').init("AppName", "Instance_ID", "IP", port);`
 
 where "AppName" is the name of your application,
 and "Instance_ID" is the ID of that instance.  This is useful for if you are running multiple servers and need to know
@@ -62,3 +62,12 @@ logger.warn("Warning: LavaTheif added random warning logs");
 ### Coming soon: Multiple language support, so you can send logs to the server from any language you choose to work in.
 
 ## Serverless Setup (JS Only)
+
+Copy the /client/ and /server/ directory into the workspace.
+Configure the database settings (See server setup for details).  Note, since this is a serverless setup, server_port can be ignored.
+
+Copy the loggerServerless.js into the workspace and initialise it like this
+`const logger = require('./loggerServerless.js').init("AppName", "Instance_ID");`
+Where AppName and Instance_ID are the same as in the client setup.
+
+The logger can now be used in the same way as Client setup (JS), however it will save the data directly to the database, rather than sending it to a server first.
