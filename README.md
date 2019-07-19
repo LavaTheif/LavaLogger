@@ -33,7 +33,7 @@ and "Instance_ID" is the ID of that instance.  This is useful for if you are run
 which one caused an error.  If you will not be running multiple instances, it can be anything, otherwise we recommend
 setting it in a config file and reading it from there.
 
-Note: If you are running locally on the default port, then you wont need to supply an IP or port.
+###### Note: If you are running locally on the default port, then you wont need to supply an IP or port.
 
 
 Once the logger is initialised, you can send your logs to the central server.
