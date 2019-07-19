@@ -71,3 +71,6 @@ Copy the loggerServerless.js into the workspace and initialise it like this
 Where AppName and Instance_ID are the same as in the client setup.
 
 The logger can now be used in the same way as Client setup (JS), however it will save the data directly to the database, rather than sending it to a server first.
+
+## Accessing logs
+Currently, you need to query the databse manually, as ive only just started this project.  Soon I will provide a js file that will allow the database to be easily queried, and also will allow for a web interface to view the data.
