@@ -66,8 +66,10 @@ logger.warn("Warning: LavaTheif added random warning logs");
 Copy the /client/ and /server/ directory into the workspace.
 Configure the database settings (See server setup for details).  Note, since this is a serverless setup, server_port can be ignored.
 
-Copy the loggerServerless.js into the workspace and initialise it like this
+Copy the loggerServerless.js into the workspace and initialise it like this:
+
 `const logger = require('./loggerServerless.js').init("AppName", "Instance_ID");`
+
 Where AppName and Instance_ID are the same as in the client setup.
 
 The logger can now be used in the same way as Client setup (JS), however it will save the data directly to the database, rather than sending it to a server first.
