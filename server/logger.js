@@ -1,4 +1,4 @@
-let levels = {0:'info', 1:'warn', 2:'error', 3:'critical', 4:'major', 5:'internal'};
+let levels = {0:'info', 1:'warn', 2:'error', 3:'critical', 4:'major', 5:'internal'};//This is in multiple files
 
 let config;
 let last_query = 0;
@@ -44,6 +44,7 @@ exports.log = function(json, c){
     }
     json.callback = callback;
 
+    // console.log(db_type)
     require(`./database/${db_type}.js`).save(json, config);
 }
 

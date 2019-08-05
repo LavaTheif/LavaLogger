@@ -8,6 +8,12 @@ let logger = require("./logger");
 const fs = require('fs');
 let config = JSON.parse(fs.readFileSync('./config.json'));
 
+if(config.db_type === 'mongoose'){
+	(async () => {
+		config = await require('./database/init_mongo.js').exec(config);
+	})();
+}
+
 server.on('connection',function(socket){
     socket.setEncoding('utf8');
 

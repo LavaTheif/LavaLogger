@@ -1,8 +1,9 @@
 {
-  "db_type":"cassandra",
+  "db_type":"mongoose",
   "username":"cassandra",
   "password":"cassandra",
-  "ip":"192.168.0.15",
+  "_ip":"192.168.0.15",
+  "ip":"localhost",
   "port":"9042",
   "schema":"logs",
 

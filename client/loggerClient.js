@@ -1,5 +1,5 @@
 let name, id, _ip='localhost', _port=2222;
-let callback = {};
+// let callback = {};
 
 let last = 0;
 let delay = 100;
@@ -8,8 +8,8 @@ exports.init = function(app_name, instance_id, ip, port){
     name = app_name;
     id = instance_id;
 
-    callback['app'] = app_name;
-    callback['id'] = instance_id;
+    // callback['app'] = app_name;
+    // callback['id'] = instance_id;
 
     if(ip)
         _ip=ip;
@@ -81,7 +81,7 @@ getStack = function(){
 }
 
 exports.info = function(message, data, use_stack_trace){
-    let c = callback;
+    let c = {app: name, id: id};
     if(use_stack_trace){
         c['trace'] = getStack();
     }
@@ -89,7 +89,7 @@ exports.info = function(message, data, use_stack_trace){
 }
 
 exports.warn = function(message, data, use_stack_trace){
-    let c = callback;
+    let c = {app: name, id: id};
     if(use_stack_trace){
         c['trace'] = getStack();
     }
@@ -97,7 +97,7 @@ exports.warn = function(message, data, use_stack_trace){
 }
 
 exports.err = function(message, data, use_stack_trace){
-    let c = callback;
+    let c = {app: name, id: id};
     if(use_stack_trace){
         c['trace'] = getStack();
     }
@@ -105,7 +105,7 @@ exports.err = function(message, data, use_stack_trace){
 }
 
 exports.critical = function(message, data, use_stack_trace){
-    let c = callback;
+    let c = {app: name, id: id};
     if(use_stack_trace){
         c['trace'] = getStack();
     }
@@ -113,7 +113,7 @@ exports.critical = function(message, data, use_stack_trace){
 }
 
 exports.major = function(message, data, use_stack_trace){
-    let c = callback;
+    let c = {app: name, id: id};
     if(use_stack_trace){
         c['trace'] = getStack();
     }
