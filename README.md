@@ -3,9 +3,9 @@ A simple logging application to easily store all logs centrally.
 
 #
 
-Supported databases: Cassandra.
+Supported databases: Cassandra, Mongoose.
 
-Coming soon: Mongoose, SQL, MySQL + Others
+Coming soon: SQL, MySQL + Others
 
 ## Server & Client combo
 
@@ -62,6 +62,7 @@ logger.warn("Warning: LavaTheif added random warning logs");
 ### Coming soon: Multiple language support, so you can send logs to the server from any language you choose to work in.
 
 ## Serverless Setup (JS Only)
+###### Note: To query the serverless setup, only the command line interface is available.
 
 Copy the /client/ and /server/ directory into the workspace.
 Configure the database settings (See server setup for details).  Note, since this is a serverless setup, server_port can be ignored.
@@ -75,4 +76,13 @@ Where AppName and Instance_ID are the same as in the client setup.
 The logger can now be used in the same way as Client setup (JS), however it will save the data directly to the database, rather than sending it to a server first.
 
 ## Accessing logs
-Currently, you need to query the databse manually, as ive only just started this project.  Soon I will provide a js file that will allow the database to be easily queried, and also will allow for a web interface to view the data.
+
+### CLI
+To query the logs via the command line, start by navigating to the /server/query directory.  Here, you will find a query.js file which handles the querying of the databases.
+
+Start by running the file with `node query.js --help`.  It will show you a help menu containing all the available arguments for the command.
+Using these arguments, you are able to edit the time, severity, and number of logs returned, aswell as toggling a few values.
+The usage for the command is `node query.js --run [args]`
+
+### Web Interface
+Coming soon!
