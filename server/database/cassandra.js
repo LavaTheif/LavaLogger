@@ -37,8 +37,6 @@ exports.create = async function(config){
 
     let table = `CREATE TABLE IF NOT EXISTS ${config.schema}.logs(timestamp BIGINT, level INT, message VARCHAR, data VARCHAR, app VARCHAR, id VARCHAR, trace VARCHAR, PRIMARY KEY ((level), timestamp, app, id));`;
 
-    console.log(table);
-
     var PlainTextAuthProvider = cassandra.auth.PlainTextAuthProvider;
     var client = new cassandra.Client({ contactPoints:[config.ip+':'+config.port], localDataCenter: 'datacenter1',
         authProvider: new PlainTextAuthProvider('cassandra', 'cassandra')});
@@ -53,18 +51,20 @@ exports.query = async function(options, config){
     var PlainTextAuthProvider = cassandra.auth.PlainTextAuthProvider;
     var client = new cassandra.Client({ contactPoints:[config.ip+':'+config.port], localDataCenter: 'datacenter1',
         authProvider: new PlainTextAuthProvider('cassandra', 'cassandra')});
-    let safe = [options.level, options.min];
+    let safe = [options.level];
 
-    let query = `SELECT * FROM ${config.schema}.logs WHERE level=? AND timestamp>? `;
+    let query = `SELECT * FROM ${config.schema}.logs WHERE level=? `;
     if(options.max){
         query += "AND timestamp<? ";
         safe.push(options.max);
     }
+    if(options.min){
+        query += "AND timestamp>? ";
+        safe.push(options.min)
+    }
     query += "ORDER BY timestamp "+(options.order==="DESC"?"DESC":"ASC")+" LIMIT ?;";
     // safe.push(options.order);
     safe.push(options.limit);
-
-    console.log(query);
 
     let dat = await client.execute(query, safe, { prepare : true });
     client.shutdown();
@@ -72,6 +72,16 @@ exports.query = async function(options, config){
     let list = [];
     for(let i in dat.rows){
         let row = dat.rows[i];
+
+        //Checking app and ID throws an error if done in the query
+        if(options.app){
+            if(row.app !== options.app)
+                continue;
+        }
+        if(options.id){
+            if(row.id !== options.id)
+                continue;
+        }
         list.push({timestamp: row.timestamp-0, level: row.level, message: row.message, data: row.data, app: row.app, id: row.id, trace: row.trace})
     }
 

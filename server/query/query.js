@@ -40,6 +40,8 @@ function cli(args, c) {
         console.log("\n\n\nHelp menu\n-----------\nUsage: node query.js --run [args]\n");
         console.log("Available operations:");
         console.log("-limit=x\t\tSets the limit for rows returned (default 10)");
+        console.log("-app=name\t\tSets the app you want to view logs for (default is all apps)");
+        console.log("-id=instance_id\t\tSets the instance id you want to view logs for (default is all ids)");
         console.log("-from=timestamp\t\tSets the minimum timestamp to get logs from");
         console.log("-to=timestamp\t\tSets the maximum timestamp to get logs from");
         console.log("-order=opt\t\tSets the order to start the query.  Available options are ASC and DESC");
@@ -59,6 +61,12 @@ function cli(args, c) {
 
             if(arg.match(/^-limit=[0-9]+$/)){
                 data.limit = arg.match(/[0-9]+$/)[0];
+
+            }else if(arg.match(/^-app=.*$/)){
+                data.app = arg.replace(/^-app=/,"");
+
+            }else if(arg.match(/^-id=.*$/)){
+                data.id = arg.replace(/^-id=/,"");
 
             }else if(arg.match(/^-from=[0-9]+$/)){
                 data.min = arg.match(/[0-9]+$/)[0];

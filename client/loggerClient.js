@@ -5,8 +5,15 @@ let last = 0;
 let delay = 100;
 
 exports.init = function(app_name, instance_id, ip, port){
-    name = app_name;
-    id = instance_id;
+    name = app_name.replace(/ /,'-');
+    if(app_name.includes(" ")){
+        console.log("app name and id must not contain spaces.  Automatically set it to: "+name);
+    }
+
+    id = instance_id.replace(/ /,'-');
+    if(instance_id.includes(" ")){
+        console.log("app name and id must not contain spaces.  Automatically set it to: "+id);
+    }
 
     // callback['app'] = app_name;
     // callback['id'] = instance_id;

@@ -54,10 +54,17 @@ exports.query = async function(options, config) {
         options.max = new Date().getTime()+1000;
     }
     var Logs = config.logs;
-
+    let where_data = {};
+    if(options.app){
+        where_data['app']=options.app;
+    }
+    if(options.id){
+        where_data['id']=options.id;
+    }
     // return new Promise((resolve) => {
     let dat = Logs.find({level: Number(options.level)}).
         where('timestamp').gt(options.min).lt(options.max).
+        where(where_data).
         limit(Number(options.limit)).
         sort((config.order==="ASC"?"":"-")+'timestamp')//TODO
     // })
