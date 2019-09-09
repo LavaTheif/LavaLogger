@@ -1,8 +1,18 @@
+/**
+@author: LavaTheif
+https://github.com/LavaTheif/LavaLogger/README.md
+
+This is the query API to allow for easy CLI querying of the logs.
+It is not used for saving logs, only viewing them.
+*/
+
+//init some vars.
 let levels = {0:'info', 1:'warn', 2:'error', 3:'critical', 4:'major', 5:'internal'};
 let config;
 
+//executes the query and prints the result.
 exports.run = async function (options, c){
-    if(!config){
+    if(!config){//check if config is loaded, if not, load it in.
         if(!c) {
             const fs = require('fs');
             let rawdata = fs.readFileSync('../config.json');
@@ -11,17 +21,17 @@ exports.run = async function (options, c){
             config = c;
         }
 
-        //query database
+        //query database using config details.
         let db_type = config.db_type;
         let data = await require(`../database/${db_type}.js`).query(options, config);
 
         console.log("Returned logs:\n---------------------------------------------------------------------------")
 
-        for(let i in data){
+        for(let i in data){//for each value returned, get the data and format it nicely for the admins to read.
             let log = data[i];
             let trace = (log.trace!=='undefined'?log.trace.replace(/\n\n/g,""):"\nNo trace given.");
-            // console.log(log)
-            // continue;
+
+            //prints the result in a nice table
             console.log(`
 ##${levels[log.level]?levels[log.level]+" ("+log.level+")":"ID: "+log.level}##\n
 \tApp: ${log.app}, ID: ${log.id}
@@ -34,9 +44,12 @@ exports.run = async function (options, c){
 }
 
 
-let args = process.argv.slice(2);
+let args = process.argv.slice(2);//remove the default nodejs args
+
 function cli(args, c) {
+    //manages the command line arguments.
     if (args[0] === '--help') {
+        //display the help menu.
         console.log("\n\n\nHelp menu\n-----------\nUsage: node query.js --run [args]\n");
         console.log("Available operations:");
         console.log("-limit=x\t\tSets the limit for rows returned (default 10)");
@@ -54,8 +67,12 @@ function cli(args, c) {
         console.log("--strict\t\tHalts the process if an error occurs.");
 
     } else if (args[0] === '--run') {
+        //--run specified, that means we need to check the other args.
+        
+        //default data
         let data = {limit: 10, level:2, order:"DESC", min:0};
-        for(let i in args){
+        
+        for(let i in args){//loop over the data, checking what arg each one is, and saving the args data to the data variable.
             let arg = args[i];
             if(arg === '--run')continue;
 
@@ -93,12 +110,14 @@ function cli(args, c) {
                 data.strict_mode = true;
 
             }else{
+                //error
                 console.log("Error with arg "+arg+".");
                 if(args.includes("--strict"))
                     return console.log("Strict mode prevented the command continuing.");
                 console.log("Ignoring it and continuing execution.  Use --strict to prevent this.");
             }
         }
+        //exec the command
         exports.run(data, c);
     } else {
         cli(['--help']);
